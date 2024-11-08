@@ -1,4 +1,3 @@
-version: "3.9"
 services:
   app:
     build: ./infra/php
@@ -16,6 +15,15 @@ services:
     build: ./infra/mysql
     volumes:
       - db-store:/var/lib/mysql
+  mongo:
+    image: mongo:latest
+    ports:
+      - 27017:27017
+    volumes:
+      - mongo-data:/data/db
+    command: --bind_ip_all
+    entrypoint: /bin/bash
 
 volumes:
   db-store:
+  mongo-data:

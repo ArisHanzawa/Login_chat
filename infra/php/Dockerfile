@@ -1,4 +1,4 @@
-FROM php:8.1-fpm-buster
+FROM php:8.1-fpm
 
 ENV COMPOSER_ALLOW_SUPERUSER=1 \
   COMPOSER_HOME=/composer
@@ -10,6 +10,12 @@ RUN apt-get update && \
   apt-get clean && \
   rm -rf /var/lib/apt/lists/* && \
   docker-php-ext-install intl pdo_mysql zip bcmath
+
+RUN apt-get update && apt-get install -y \
+  libssl-dev \
+  pkg-config \
+  && pecl install mongodb \
+  && docker-php-ext-enable mongodb
 
 COPY ./php.ini /usr/local/etc/php/php.ini
 
