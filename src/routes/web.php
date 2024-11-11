@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ChatController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,5 +21,6 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-// Route::routes('/chat', [App\Http\Controllers\ChatController::class, 'index'])->name('chat');
+Route::get('/home', [ChatController::class, 'index'])->name('chat.chat');
+Route::get('/chat', [ChatController::class, 'index'])->name('chat.chat');
+Route::post('/chat', [ChatController::class, 'store'])->name('chat.store');
