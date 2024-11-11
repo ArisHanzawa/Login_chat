@@ -22,7 +22,6 @@ services:
     volumes:
       - mongo-data:/data/db
     command: --bind_ip_all
-    entrypoint: /bin/bash
 
 volumes:
   db-store:
