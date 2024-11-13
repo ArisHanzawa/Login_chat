@@ -18,6 +18,7 @@ https://laravel.com/docs/10.x/authentication
     docker compose up -d
 
 4、web-1コンテナのportに書いてあるurlにlocaolhostで表示させる
+    localhost:8080
 
 5、laravel公式のデフォルトの画面が映ったら環境構築は成功です。
 
@@ -44,4 +45,4 @@ laravel画面右上の　Log in をクリックする。
 登録したEmail Address、Passwordを入力する。
 
 ３、ログイン
-Home画面に遷移し、Dashbordに「You are logged in!」と表示される
+Chat画面に遷移する。
