@@ -8,6 +8,18 @@ use Minishlink\WebPush\Subscription;
 
 class NotificationController extends Controller
 {
+    public function subscribe(Request $request)
+    {
+        // サブスクリプション情報を保存
+        Subscription::create([
+            'endpoint' => $request->input('endpoint'),
+            'publicKey' => $request->input('publicKey'),
+            'authToken' => $request->input('authToken'),
+        ]);
+
+        return response()->json(['message' => 'Subscribed!']);
+    }
+
     public function sendNotification(Request $request)
     {
         $auth = [

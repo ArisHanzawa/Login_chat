@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ChatController;
+use App\Http\Controllers\NotificationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,3 +25,5 @@ Auth::routes();
 Route::get('/home', [ChatController::class, 'index'])->name('chat.chat');
 Route::get('/chat', [ChatController::class, 'index'])->name('chat.chat');
 Route::post('/chat', [ChatController::class, 'store'])->name('chat.store');
+Route::post('/subscribe', [NotificationController::class, 'subscribe']);
+Route::post('/send-notification', [NotificationController::class, 'sendNotification']);
