@@ -2,8 +2,8 @@ self.addEventListener('push', function(event){
     const data = event.data.json();
     const options = {
         body: data.body,
-        icon: '',
-        badge: ''
+        icon: 'https://via.placeholder.com/128',
+        badge: 'https://via.placeholder.com/64',
     };
 
     event.waitUntil(
@@ -14,9 +14,6 @@ self.addEventListener('push', function(event){
 self.addEventListener('notificationclick', function(event){
     event.notification.close();
     event.waitUntil(
-        clients
-        
-        
-        ('https://localhost:8080')
+        clients.openSindow('https://localhost:8080')
     );
 });
