@@ -25,5 +25,6 @@ Auth::routes();
 Route::get('/home', [ChatController::class, 'index'])->name('chat.chat');
 Route::get('/chat', [ChatController::class, 'index'])->name('chat.chat');
 Route::post('/chat', [ChatController::class, 'store'])->name('chat.store');
+Route::post('/chat/store', [ChatController::class, 'store'])->name('chat.store');
 Route::post('/subscribe', [NotificationController::class, 'subscribe']);
 Route::post('/send-notification', [NotificationController::class, 'sendNotification']);

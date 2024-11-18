@@ -15,7 +15,7 @@ async function registerServiceWorker() {
     if ('serviceWorker' in navigator) {
         try {
             const registration = await navigator.serviceWorker.register('/service-worker.js', { scope: '/' });
-            console.log('Service Worker registered with scope:', registration/scope);
+            console.log('Service Worker registered with scope:', registration.scope);
         } catch (error) {
             console.log('Service Worker registration failed:', error);
         }
