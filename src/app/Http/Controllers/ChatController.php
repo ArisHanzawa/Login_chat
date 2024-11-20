@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\ChatMessage;
+use App\Models\User;
+use App\Notifications\TestPush;
 
 class ChatController extends Controller
 {
@@ -24,6 +26,11 @@ class ChatController extends Controller
             'message' => $request->message,
             'created_at' => now(),
         ]);
+
+        $user = auth()->user();
+        if ($user) {
+            $user->notify(new TestPush('新しいメッセージが届きました', $request->message, route('chat.chat')));
+        }
 
         return redirect()->route('chat.chat');
     }
