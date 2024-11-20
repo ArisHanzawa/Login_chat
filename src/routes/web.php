@@ -21,7 +21,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Auth::routes();
+// Auth::routes();
 
 Route::get('/chat', [ChatController::class, 'index'])->name('chat.chat');
 Route::post('/chat', [ChatController::class, 'store'])->name('chat.store');
@@ -42,8 +42,5 @@ Route::post('/set-subscription', [WebPushController::class, 'setSubscription'])
     ->withoutMiddleware(\Illuminate\Foundation\Http\Middleware\VerifyCsrfToken::class);
 
 Route::get('/send', [WebPushController::class, 'send']);
-
-Route::post('/set-subscription', [WebPushController::class, 'setSubscription'])
-->withoutMiddleware(\Illuminate\Foundation\Http\Middleware\VerifyCsrfToken::class);
 
 require __DIR__.'/auth.php';
