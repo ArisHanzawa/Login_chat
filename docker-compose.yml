@@ -3,6 +3,7 @@ services:
     build: ./infra/php
     volumes:
       - ./src:/data
+      - /var/run/docker.sock:/var/run/docker.sock
   web:
     image: nginx:1.20-alpine
     ports:
