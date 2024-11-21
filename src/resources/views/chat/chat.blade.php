@@ -5,6 +5,7 @@
 </head>
 <body>
     <h1>Chat</h1>
+    <h2>{{ $userId }}</h2>
     <form action="{{ route('chat.store') }}" method="POST">
         @csrf
         <input type="text" name="message" placeholder="テキストを入力">

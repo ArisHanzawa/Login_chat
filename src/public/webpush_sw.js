@@ -1,26 +1,43 @@
-//let url = "localhost:8080/webpush"; //定数化して取るのではなく、通知データから直接取得　XSS対策まぁこれある時点で意味ないんすけど
-
 self.addEventListener('push', async function (event) {
-    console.log('Push event received:', event);
     const jsonData = event.data.json();
 
-    url = jsonData.data.url;
+    const options = {
+        body: jsonData.body,
+        icon: 'data/images/icon.jpg',
+        data: {
+            url: jsonData.url,
+            sendarId: jsonData.senderId
+        }
+    };
 
     event.waitUntil(
-        self.registration.showNotification(jsonData.title, {
-            body: jsonData.body,
-        }),
+        self.registration.showNotification(jsonData.title, options)
     );
+    console.log('プッシュ通知を受信しました:', jsonData);
+
+    if (jsonData.senderId != self.registration.scope) {
+        console.log('別のユーザーからの通知を受信しました:', jsonData.senderId);
+    }
 });
 
 self.addEventListener('notificationclick', function (event) {
-    console.log('Notification click event:', event);
     event.notification.close();
     event.waitUntil(
-        clients.openWindow(event.notification.data.url)
-        //clients.openWindow(url)
+        clients.matchAll({ type: 'window' }).then(windowClients => {
+            for (let client of windowClients) {
+                if (client.url === event.notification.data.url && 'focus' in client) {
+                    return client.focus();
+                }
+                if (client.url === event.notification.data.url) {
+                    return client.navigate(event.notification.data.url);
+                }
+            }
+            if (clients.openWindow) {
+                return clients.openWindow(event.notification.data.url);
+            }
+        })
     );
-
+    console.log('通知がクリックされました:', event.notification.data.url);
 });
 
 

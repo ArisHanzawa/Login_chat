@@ -25,6 +25,7 @@ class WebpushController extends Controller
     public function send(Request $request)
     {
         $user = User::find(1);
-        $user->notify(new TestPush('タイトル', '内容', 'https://google.co.jp'));
+        $currentUserId = auth()->id();
+        $user->notify(new TestPush('タイトル', '内容', 'https://google.co.jp',$currentUserId));
     }
 }

@@ -26,40 +26,48 @@ async function getPermission() {
     console.log('Requesting notification permission...');
     const result = await Notification.requestPermission();
 
-    if (result !== 'granted') {
-        console.log('Permission not granted for Notification');
-        return;
+    try {
+
+        if (result !== 'granted') {
+            console.log('Permission not granted for Notification');
+            return;
+        }
+
+        console.log('Notification permission granted.');
+
+        const swr = await navigator.serviceWorker.ready;
+
+        try {
+            const subscription = await swr.pushManager.subscribe({
+                userVisibleOnly: true,
+                applicationServerKey: urlBase64ToUint8Array(applicationServerKey)
+            });
+
+            console.log('Subscription:', subscription);
+
+            let contentEncoding = 'aesgcm';
+            if(PushManager.supportedContentEncodings && PushManager.supportedContentEncodings.includes('aes128gcm')) {
+                contentEncoding = 'aes128gcm';
+            }
+
+            await fetch('set-subscription', {
+                method: 'POST',
+                headers: {
+                    'content-type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                },
+                body: JSON.stringify(Object.assign(subscription.toJSON(), {contentEncoding}))
+            });
+
+            console.log('Subscription registered successfully');
+            alert('プッシュサーバーの登録まで完了')
+        } catch(error) {
+            console.error('Error during subscription:', error);
+        }
+    } catch(error) {
+        console.error('Error requesting notification permission:', error);
     }
-
-    console.log('Notification permission granted.');
-
-    const swr = await navigator.serviceWorker.ready;
-
-    const subscription = await swr.pushManager.subscribe({
-        userVisibleOnly: true,
-        applicationServerKey: urlBase64ToUint8Array(applicationServerKey)
-    });
-
-    console.log('Subscription:', subscription);
-
-    let contentEncoding = 'aesgcm';
-    if(PushManager.supportedContentEncodings.includes('aes128gcm')) {
-        contentEncoding = 'aes128gcm';
-    }
-
-    await fetch('set-subscription', {
-        method: 'POST',
-        headers: {
-            'content-type': 'application/json',
-            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-        },
-        body: JSON.stringify(Object.assign(subscription.toJSON(), {contentEncoding}))
-    });
-
-    console.log('Subscription registered successfully');
-    alert('プッシュサーバーの登録まで完了')
 }
-
 async function updateSw() {
     const swr = await navigator.serviceWorker.ready;
     swr.update();
