@@ -7,6 +7,9 @@ if ('serviceWorker' in navigator) {
         }).catch(function(error) {
             console.log('Service Worker registration failed:', error);
         });
+    navigator.serviceWorker.addEventListener('message', function(event) {
+            location.reload();
+    });
 }
 
 function urlBase64ToUint8Array (base64String) {

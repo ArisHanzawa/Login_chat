@@ -32,11 +32,10 @@ class ChatController extends Controller
         $currentUserId = auth()->id();
         $users = User::where('id', '!=', $currentUserId)->get();
         foreach ($users as $user) {
-            \Log::info('Sending notification to user: ' . $user->id);
             $user->notify(new TestPush(
                 '新しいメッセージが届きました',
                  $request->message,
-                 'localhost:8080/chat',
+                 'http://localhost:8080/chat',
                  $currentUserId
                 ));
         }

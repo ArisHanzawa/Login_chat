@@ -23,7 +23,7 @@ class TestPush extends Notification
      *
      * @return void
      */
-    public function __construct(string $title = "", string $body = "", string $url = "", int $senderId)
+    public function __construct(string $title = "", string $body, string $url, int $senderId)
     {
         $this->title = $title;
         $this->body = $body;
@@ -55,6 +55,7 @@ class TestPush extends Notification
             ->title($this->title)
             ->body($this->body)
             ->icon('/images/icon.jpg')
+            ->action('View app', $this->url)
             ->data([
                 'url' => $this->url,
                 'senderId' => $this->senderId
