@@ -1,9 +1,19 @@
+self.addEventListener('install', event => {
+    self.skipWaiting();
+});
+
+self.addEventListener('activate', event => {
+    event.waitUntil(
+        clients.claim()
+    );
+});
+
 self.addEventListener('push', async function (event) {
+    console.log('Push event received:', event);
     const jsonData = event.data.json();
 
     const options = {
         body: jsonData.body,
-        icon: 'data/images/icon.jpg',
         data: {
             url: jsonData.url,
             senderId: jsonData.senderId
@@ -16,12 +26,13 @@ self.addEventListener('push', async function (event) {
     console.log('プッシュ通知を受信しました:', jsonData);
 
     if (jsonData.senderId != self.registration.scope) {
-        location.reload();
-        location.href = location.href;
+        //location.reload();
+        //location.href = location.href;
+        window.location.reload();
         console.log('別のユーザーからの通知を受信しました:', jsonData.senderId);
     }
 
-    const clientList = await self.clients.matchAll({ type: 'window' });
+    const clientList = await self.clients.matchAll({ type: 'window', includeUncontrolled: true });
     for (const client of clientList) {
         if (client.url === jsonData.url && 'focus' in client) {
             console.log('Sending refresh message to client:', client);

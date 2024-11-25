@@ -9,6 +9,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use NotificationChannels\WebPush\HasPushSubscriptions;
 use NotificationChannels\WebPush\PushSubscription;
+use Illuminate\Support\Facades\Log;
 
 class User extends Authenticatable
 {
@@ -51,9 +52,19 @@ class User extends Authenticatable
 
     public function updatePushSubscription($endpoint, $publicKey, $authToken, $contentEncoding)
     {
+        Log::info('Updating push subscription', [
+            'endpoint' => $endpoint,
+            'public_key' => $publicKey,
+            'auth_token' => $authToken,
+            'content_encoding' => $contentEncoding,
+        ]);
+
         $this->pushSubscriptions()->updateOrCreate(
-            ['endpoint' => $endpoint],
             [
+                'endpoint' => $endpoint,
+            ],
+            [
+                'user_id' => $this->id,
                 'public_key' => $publicKey,
                 'auth_token' => $authToken,
                 'content_encoding' => $contentEncoding,

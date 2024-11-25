@@ -4,11 +4,29 @@ if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('/webpush_sw.js')
         .then(function(registration) {
             console.log('Service Worker registered with scope:', registration.scope);
+
+            registration.onupdatefound = function() {
+                const installingWorker = registration.installing;
+                installingWorker.onstatechange = function() {
+                    if (installingworkeer.state === 'installed') {
+                        if (navigator.serviceWorker.controller) {
+                        console.log('New or updated content is available.');
+                        window.location.reload();
+                        } else {
+                        console.log('Content is now available offline!');
+                        }
+                    }
+                };
+            };
+
         }).catch(function(error) {
             console.log('Service Worker registration failed:', error);
         });
     navigator.serviceWorker.addEventListener('message', function(event) {
-            location.reload();
+        console.log('Received message from Service Worker:', event.data);
+        if (event.data.action === 'refresh') {
+            location.replace(location.href);
+        }
     });
 }
 
@@ -40,7 +58,7 @@ async function getPermission() {
 
         const swr = await navigator.serviceWorker.ready;
 
-        try {
+
             const subscription = await swr.pushManager.subscribe({
                 userVisibleOnly: true,
                 applicationServerKey: urlBase64ToUint8Array(applicationServerKey)
@@ -63,13 +81,10 @@ async function getPermission() {
             });
 
             console.log('Subscription registered successfully');
-            alert('プッシュサーバーの登録まで完了')
+            alert('プッシュサーバーの登録まで完了');
         } catch(error) {
             console.error('Error during subscription:', error);
         }
-    } catch(error) {
-        console.error('Error requesting notification permission:', error);
-    }
 }
 async function updateSw() {
     const swr = await navigator.serviceWorker.ready;

@@ -8,6 +8,7 @@ use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use NotificationChannels\WebPush\WebPushChannel;
 use NotificationChannels\WebPush\WebPushMessage;
+use Illuminate\Support\Facades\Log;
 
 class TestPush extends Notification
 {
@@ -23,7 +24,7 @@ class TestPush extends Notification
      *
      * @return void
      */
-    public function __construct(string $title = "", string $body, string $url, int $senderId)
+    public function __construct(string $title, string $body, string $url, int $senderId)
     {
         $this->title = $title;
         $this->body = $body;
@@ -51,10 +52,17 @@ class TestPush extends Notification
      */
     public function toWebPush($notifiable,$notification)
     {
+        Log::info('Preparing push notification:', [
+            'title' => $this->title,
+            'body' => $this->body,
+            'url' => $this->url,
+            'senderId' => $this->senderId
+        ]);
+
+
         return (new WebPushMessage())
             ->title($this->title)
             ->body($this->body)
-            ->icon('/images/icon.jpg')
             ->action('View app', $this->url)
             ->data([
                 'url' => $this->url,
