@@ -28,7 +28,7 @@ self.addEventListener('push', async function (event) {
     if (jsonData.senderId != self.registration.scope) {
         //location.reload();
         //location.href = location.href;
-        window.location.reload();
+        // window.location.reload();
         console.log('別のユーザーからの通知を受信しました:', jsonData.senderId);
     }
 
@@ -44,6 +44,7 @@ self.addEventListener('push', async function (event) {
 self.addEventListener('notificationclick', async function (event) {
     event.notification.close();
     console.log('通知クリックイベント:', event.notification.data);
+    console.log('通知のURL:', event.notification.data.url);
     event.waitUntil(
         self.clients.matchAll({ type: 'window' }).then(windowClients => {
             for (let client of windowClients) {

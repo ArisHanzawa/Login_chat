@@ -15,6 +15,13 @@ class WebpushController extends Controller
     public function setSubscription(Request $request): JsonResponse
     {
         $user = Auth::user();
+        $currentUserId = auth()-> id();
+        $url = 'http://localhost:8080/chat';
+        Log::info('Sending push notification to user:', ['user_id' => $user->id]);
+        // Log::info('Authenticated user:', ['user' => Auth::user()]);
+        // dd(Auth::user());
+
+            Log::info('Push notification sent successfully');
 
         if (!$user) {
             Log::error('User not authenticated');

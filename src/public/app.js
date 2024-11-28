@@ -8,7 +8,7 @@ if ('serviceWorker' in navigator) {
             registration.onupdatefound = function() {
                 const installingWorker = registration.installing;
                 installingWorker.onstatechange = function() {
-                    if (installingworkeer.state === 'installed') {
+                    if (installingWorkeer.state === 'installed') {
                         if (navigator.serviceWorker.controller) {
                         console.log('New or updated content is available.');
                         window.location.reload();
@@ -81,7 +81,7 @@ async function getPermission() {
             });
 
             console.log('Subscription registered successfully');
-            alert('プッシュサーバーの登録まで完了');
+            alert('プッシュサーバーの登録が完了');
         } catch(error) {
             console.error('Error during subscription:', error);
         }

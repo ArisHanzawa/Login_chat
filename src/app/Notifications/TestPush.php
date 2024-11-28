@@ -5,6 +5,7 @@ namespace App\Notifications;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Messages\BroadcastMessage;
 use Illuminate\Notifications\Notification;
 use NotificationChannels\WebPush\WebPushChannel;
 use NotificationChannels\WebPush\WebPushMessage;
@@ -41,7 +42,7 @@ class TestPush extends Notification
     public function via($notifiable)
     {
         // return ['mail'];
-        return [WebPushChannel::class];
+         return [WebPushChannel::class];
     }
 
     /**
@@ -79,7 +80,20 @@ class TestPush extends Notification
     public function toArray($notifiable)
     {
         return [
-            //
+            'title' => $this->title,
+            'body' => $this->body,
+            'url' => $this->url,
+            'sender_id' => $this->senderId,
         ];
+    }
+    
+    public function toBroadcast($notifiable)
+    {
+        return new BroadcastMessage([
+            'title' => $this->title,
+            'body' => $this->body,
+            'url' => $this->url,
+            'sender_id' => $this->senderId,
+        ]);
     }
 }
