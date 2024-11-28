@@ -36,7 +36,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::view('/webpush', 'webpush');
+Route::view('/webpush', 'webpush')->name('webpush.webpush');
 
 Route::post('/set-subscription', [WebPushController::class, 'setSubscription'])
     ->withoutMiddleware(\Illuminate\Foundation\Http\Middleware\VerifyCsrfToken::class);

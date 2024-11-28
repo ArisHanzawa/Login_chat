@@ -10,6 +10,16 @@
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     {{ __("You're logged in!") }}
+                    <div class="mt-4">
+                        1　First, access
+                        <a href="{{ route('webpush.webpush') }}" class="btn btn-secondary btn-outline-primary">Web Push</a>
+                        and verify that a dialog box appears asking for browser permissions.<br><br>
+                        <a href="{{ route('webpush.webpush') }}" class="btn btn-secondary btn-outline-primary">Web Push</a><br><br>
+                        2　Next, access
+                        <a href="{{ route('chat.chat') }}" class="btn btn btn-primary">Chat</a>
+                        and start chatting!<br><br>
+                        <a href="{{ route('chat.chat') }}" class="btn btn btn-primary">Chat</a>
+                    </div>
                 </div>
             </div>
         </div>
