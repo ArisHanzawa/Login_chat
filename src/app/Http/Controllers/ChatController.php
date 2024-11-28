@@ -4,13 +4,17 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\ChatMessage;
+use App\Models\User;
+use App\Notifications\TestPush;
+use Illuminate\Support\Facades\Auth;
 
 class ChatController extends Controller
 {
     public function index()
     {
         $messages = ChatMessage::all();
-        return view('chat.chat', compact('messages'));
+        $userId = Auth::id();
+        return view('chat.chat', compact('messages', 'userId'));
     }
 
     public function store(Request $request)
@@ -19,11 +23,22 @@ class ChatController extends Controller
             'message' => 'required|string|max:255',
         ]);
 
-        ChatMessage::create([
+        $chatMessage = ChatMessage::create([
             'user_id' => auth()->id(),
             'message' => $request->message,
             'created_at' => now(),
         ]);
+
+        $currentUserId = auth()->id();
+        $users = User::where('id', '!=', $currentUserId)->get();
+        foreach ($users as $user) {
+            $user->notify(new TestPush(
+                '新しいメッセージが届きました',
+                 $request->message,
+                 'http://localhost:8080/chat',
+                 $currentUserId
+                ));
+        }
 
         return redirect()->route('chat.chat');
     }
