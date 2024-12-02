@@ -15,8 +15,8 @@ class WebpushController extends Controller
     public function setSubscription(Request $request): JsonResponse
     {
         $user = Auth::user();
-        $currentUserId = auth()-> id();
-        $url = 'http://localhost:8080/chat';
+        // $currentUserId = Auth::id();
+        // $url = 'http://localhost:8080/chat';
         Log::info('Sending push notification to user:', ['user_id' => $user->id]);
         // Log::info('Authenticated user:', ['user' => Auth::user()]);
         // dd(Auth::user());
@@ -35,7 +35,7 @@ class WebpushController extends Controller
 
         try{
             Log::info('Before updating push subscription');
-            $user->updatePushSubscription(
+            $this->$user->updatePushSubscription(
                 $tempData['endpoint'],
                 $tempData['keys']['p256dh'],
                 $tempData['keys']['auth'],
@@ -49,12 +49,11 @@ class WebpushController extends Controller
         }
     }
 
-    public function
 
     public function send(Request $request)
     {
         $user = Auth::user();
-        $currentUserId = auth()->id();
+        $currentUserId = Auth::id();
         Log::info('Sending push notification to user:', ['user_id' => $user->id]);
 
         try{
