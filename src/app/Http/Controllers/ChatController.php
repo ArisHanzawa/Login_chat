@@ -24,12 +24,12 @@ class ChatController extends Controller
         ]);
 
         $chatMessage = ChatMessage::create([
-            'user_id' => auth()->id(),
+            'user_id' => Auth::id(),
             'message' => $request->message,
             'created_at' => now(),
         ]);
 
-        $currentUserId = auth()->id();
+        $currentUserId = Auth::id();
         $users = User::where('id', '!=', $currentUserId)->get();
         foreach ($users as $user) {
             $user->notify(new TestPush(
