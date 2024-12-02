@@ -49,6 +49,8 @@ class WebpushController extends Controller
         }
     }
 
+    public function
+
     public function send(Request $request)
     {
         $user = Auth::user();
