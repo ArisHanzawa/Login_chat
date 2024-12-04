@@ -21,7 +21,7 @@ class AnnouncementsTableSeeder extends Seeder
 
             $announcement = new Announcement();
             $announcement->title = 'テストタイトル - '. $i;
-            $announcement->description = "テストお知らせ\nテストお知らせ\nテストお知らせ - ".$i;
+            $announcement->description = "テストお知らせ\nテストお知らせ\nテストお知らせ - ". $i;
             $announcement->save();
 
             foreach ($user_ids as $user_id) {

@@ -44,10 +44,12 @@ Route::post('/set-subscription', [WebPushController::class, 'setSubscription'])
 
 Route::get('/send', [WebPushController::class, 'send']);
 
-Route::prefix('announcement')->middleware('auth')->group(function () {
+Route::prefix('announcement')->middleware('auth')->group(function(){
+
     Route::get('/', [AnnouncementController::class, 'index'])->name('announcement.index');
-    Route::get('/list', [AnnouncementController::class, 'index'])->name('announcement.index');
-    Route::get('/{announcement}', [AnnouncementController::class, 'show'])->name('announcement.index');
+    Route::get('/list', [AnnouncementController::class, 'list'])->name('announcement.list');
+    Route::get('/{announcement}', [AnnouncementController::class, 'show'])->name('announcement.show');
+
 });
 
 require __DIR__.'/auth.php';

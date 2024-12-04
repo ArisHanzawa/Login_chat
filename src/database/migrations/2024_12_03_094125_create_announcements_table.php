@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up()
     {
-        schema::create('announcements', function (Blueprint $table){
+        Schema::create('announcements', function (Blueprint $table){
             $table->id();
             $table->string('title')->comment('お知らせ：タイトル');
             $table->text('description')->comment('お知らせ：内容');
