@@ -5,6 +5,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\WebPushController;
+use App\Http\Controllers\AnnouncementController;
 
 /*
 |--------------------------------------------------------------------------
@@ -42,5 +43,11 @@ Route::post('/set-subscription', [WebPushController::class, 'setSubscription'])
     ->withoutMiddleware(\Illuminate\Foundation\Http\Middleware\VerifyCsrfToken::class);
 
 Route::get('/send', [WebPushController::class, 'send']);
+
+Route::prefix('announcement')->middleware('auth')->group(function () {
+    Route::get('/', [AnnouncementController::class, 'index'])->name('announcement.index');
+    Route::get('/list', [AnnouncementController::class, 'index'])->name('announcement.index');
+    Route::get('/{announcement}', [AnnouncementController::class, 'show'])->name('announcement.index');
+});
 
 require __DIR__.'/auth.php';

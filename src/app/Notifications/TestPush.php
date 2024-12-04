@@ -51,7 +51,7 @@ class TestPush extends Notification
      * @param  mixed  $notifiable
      * @return \Illuminate\Notifications\Messages\MailMessage
      */
-    public function toWebPush($notifiable,$notification)
+    public function toWebPush($WebPushMessage,)
     {
         Log::info('Preparing push notification:', [
             'title' => $this->title,
@@ -86,7 +86,7 @@ class TestPush extends Notification
             'sender_id' => $this->senderId,
         ];
     }
-    
+
     public function toBroadcast($notifiable)
     {
         return new BroadcastMessage([
