@@ -7,7 +7,7 @@
 </head>
 <body>
     <h1>Chat</h1>
-    <h2>{{ $userId }}</h2>
+    <h2>開発中はuserIdを表示します。<br>{{ $userId }}</h2>
     <form action="{{ route('chat.store') }}" method="POST">
         @csrf
         <input type="text" name="message" placeholder="テキストを入力">
@@ -15,7 +15,12 @@
     </form>
     <ul>
         @foreach($messages as $message)
-            <li>{{ $message->created_at }} - {{ $message->message }}</li>
+            <li data-message-id="{{ $message->id }}">
+                {{ $message->created_at }} - {{ $message->message }}
+                @if(is_array($message->read_by) && count($message->read_by) > 1)
+                    <span>既読{{ count($message->read_by) - 1 }}</span>
+                @endif
+            </li>
         @endforeach
     </ul>
 
