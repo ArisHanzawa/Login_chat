@@ -25,6 +25,7 @@ Route::get('/', function () {
 
 Route::get('/chat', [ChatController::class, 'index'])->name('chat.chat');
 Route::post('/chat', [ChatController::class, 'store'])->name('chat.store');
+Route::post('/chat/read/{messageId}', [ChatController::class, 'markAsRead'])->name('chat.markAsRead');
 
 Route::get('/dashboard', function () {
     return view('dashboard');

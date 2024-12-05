@@ -42,7 +42,8 @@ class TestPush extends Notification
     public function via($notifiable)
     {
         // return ['mail'];
-         return [WebPushChannel::class];
+        //  return [WebPushChannel::class];
+        return ['database', 'broadcast'];
     }
 
     /**
@@ -51,25 +52,25 @@ class TestPush extends Notification
      * @param  mixed  $notifiable
      * @return \Illuminate\Notifications\Messages\MailMessage
      */
-    public function toWebPush($notifiable,$notification)
-    {
-        Log::info('Preparing push notification:', [
-            'title' => $this->title,
-            'body' => $this->body,
-            'url' => $this->url,
-            'senderId' => $this->senderId
-        ]);
+    // public function toWebPush($notifiable,$notification)
+    // {
+    //     Log::info('Preparing push notification:', [
+    //         'title' => $this->title,
+    //         'body' => $this->body,
+    //         'url' => $this->url,
+    //         'senderId' => $this->senderId
+    //     ]);
 
 
-        return (new WebPushMessage())
-            ->title($this->title)
-            ->body($this->body)
-            ->action('View app', $this->url)
-            ->data([
-                'url' => $this->url,
-                'senderId' => $this->senderId
-            ]);
-    }
+    //     return (new WebPushMessage())
+    //         ->title($this->title)
+    //         ->body($this->body)
+    //         ->action('View app', $this->url)
+    //         ->data([
+    //             'url' => $this->url,
+    //             'senderId' => $this->senderId
+    //         ]);
+    // }
 
     /**
      * Get the array representation of the notification.

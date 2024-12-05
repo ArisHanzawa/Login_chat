@@ -10,6 +10,10 @@ class ChatMessage extends Eloquent
     protected $collection = 'chat_messages';
 
     protected $fillable = [
-        'user_id', 'message', 'created_at'
+        'user_id', 'message', 'created_at', 'read_by'
+    ];
+
+    protected $casts = [
+        'read_by' => 'array'
     ];
 }
