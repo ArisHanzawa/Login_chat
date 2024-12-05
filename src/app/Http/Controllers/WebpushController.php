@@ -35,7 +35,7 @@ class WebpushController extends Controller
 
         try{
             Log::info('Before updating push subscription');
-            $this->$user->updatePushSubscription(
+            $user->updatePushSubscription(
                 $tempData['endpoint'],
                 $tempData['keys']['p256dh'],
                 $tempData['keys']['auth'],
