@@ -23,10 +23,15 @@ class ChatController extends Controller
             'message' => 'required|string|max:255',
         ]);
 
+        if (!Auth::check()) {
+            return redirect()->route('login')->withErrors('ログインしてください。');
+        }
+
         $chatMessage = ChatMessage::create([
             'user_id' => Auth::id(),
             'message' => $request->message,
             'created_at' => now(),
+            'read_by' => [],
         ]);
 
         $currentUserId = Auth::id();
@@ -41,5 +46,20 @@ class ChatController extends Controller
         }
 
         return redirect()->route('chat.chat');
+    }
+
+    public function markAsRead($messageId)
+    {
+        $message = ChatMessage::find($messageId);
+        if ($message) {
+            $readBy = $message->read_by ?? [];
+            if (!in_array(Auth::id(), $readBy)) {
+                $readBy[] = Auth::id();
+                $message->read_by = $readBy;
+                $message->save();
+            }
+        }
+
+        return response()->json(['status' => 'success']);
     }
 }
