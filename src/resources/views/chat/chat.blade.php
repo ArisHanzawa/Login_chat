@@ -13,7 +13,7 @@
         <input type="text" name="message" placeholder="テキストを入力">
         <button type="submit">送信</button>
     </form>
-    <ul>
+    <ul id="chat-messages">
         @foreach($messages as $message)
             <li data-message-id="{{ $message->id }}">
                 {{ $message->created_at }} - {{ $message->message }}
@@ -24,20 +24,6 @@
         @endforeach
     </ul>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const messages = document.querySelectorAll('li[data-message-id]');
-            messages.forEach(message => {
-                const messageId = message.getAttribute('data-message-id');
-                fetch(`/chat/read/${messageId}`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                    }
-                });
-            });
-        });
-    </script>
+    <script src="{{ asset('js/chat.js')}}"></script>
 </body>
 </html>

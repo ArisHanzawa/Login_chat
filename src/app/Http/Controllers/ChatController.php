@@ -13,7 +13,7 @@ class ChatController extends Controller
     public function index()
     {
         // 最新の15件のメッセージを取得
-        $messages = ChatMessage::orderBy('created_at', 'desc')->take(15)->get();
+        $messages = ChatMessage::orderBy('created_at', 'desc')->take(20)->get();
 
         // メッセージを古い順に並べ替え
         $messages = $messages->sortBy('created_at');
@@ -68,5 +68,20 @@ class ChatController extends Controller
         }
 
         return response()->json(['status' => 'success']);
+    }
+
+    public function loadMore($lastMessageId)
+    {
+        // 最後のメッセージIDより古いメッセージを15件取得
+        $messages = ChatMessage::where('id', '<', $lastMessageId)
+            ->orderBy('created_at', 'desc')
+            ->skip(20)
+            ->take(15)
+            ->get();
+
+        // メッセージを古い順に並べ替え
+        $messages = $messages->sortBy('created_at');
+
+        return response()->json($messages);
     }
 }
