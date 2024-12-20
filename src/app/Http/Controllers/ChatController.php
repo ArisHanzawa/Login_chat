@@ -12,9 +12,16 @@ class ChatController extends Controller
 {
     public function index()
     {
-        $messages = ChatMessage::all();
-        $userId = Auth::id();
-        return view('chat.chat', compact('messages', 'userId'));
+        // 最新の15件のメッセージを取得
+        $messages = ChatMessage::orderBy('created_at', 'desc')->take(15)->get();
+
+        // メッセージを古い順に並べ替え
+        $messages = $messages->sortBy('created_at');
+
+        return view('chat.chat', [
+            'userId' => auth()->id(),
+            'messages' => $messages,
+        ]);
     }
 
     public function store(Request $request)
