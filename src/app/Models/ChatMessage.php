@@ -13,6 +13,16 @@ class ChatMessage extends Eloquent
         'user_id', 'message', 'created_at', 'read_by'
     ];
 
+    public function getMentionedUsersAttribute($value)
+    {
+        return json_decode($value, true);
+    }
+
+    public function setMentionedUsersAttribute($value)
+    {
+        $this->attributes['mentioned_users'] = json_encode($value);
+    }
+
     protected $casts = [
         'read_by' => 'array'
     ];

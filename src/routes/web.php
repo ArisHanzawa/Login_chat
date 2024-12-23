@@ -37,10 +37,6 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::get('/chat', [ChatController::class, 'index'])->name('chat.index');
-Route::post('/chat/store', [ChatController::class, 'store'])->name('chat.store');
-Route::get('/chat/load-more/{lastMessageId}', [ChatController::class, 'loadMore'])->name('chat.loadMore');
-
 Route::view('/webpush', 'webpush')->name('webpush.webpush');
 
 Route::post('/set-subscription', [WebPushController::class, 'setSubscription'])

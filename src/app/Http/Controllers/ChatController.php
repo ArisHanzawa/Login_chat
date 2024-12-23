@@ -34,9 +34,29 @@ class ChatController extends Controller
             return redirect()->route('login')->withErrors('ログインしてください。');
         }
 
-        $chatMessage = ChatMessage::create([
+        $messageText = $request->message;
+
+        // メンションの検出
+        preg_match_all('/@(\w+)/', $messageText, $matches);
+        $mentionedUsernames = $matches[1];
+
+        // メンションされたユーザーの特定と保存
+        $mentionedUserIds = [];
+        foreach ($mentionedUsernames as $username) {
+            $user = User::where('name', $username)->first();
+            if ($user) {
+                $mentionedUserIds[] = $user->id;
+                // メンション情報を保存（例: メッセージにメンションされたユーザーIDを保存）
+                // 通知の送信（例: リアルタイム通知やメール通知）
+                //TODO ここにお知らせ機能の一覧に追加する処理、追加時に通知する処理を追加
+                // Notification::send($user, new MentionNotification($message));
+            }
+        }
+
+        ChatMessage::create([
             'user_id' => Auth::id(),
             'message' => $request->message,
+            'mentioned_users' => $mentionedUserIds,
             'created_at' => now(),
             'read_by' => [],
         ]);
